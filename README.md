@@ -1,3 +1,5 @@
+[![common](https://github.com/dreik84/hexlet-ci-app/actions/workflows/common.yml/badge.svg)](https://github.com/dreik84/hexlet-ci-app/actions/workflows/common.yml)
+
 # Example app for CI Hexlet course
 
 Starting boilerplate of [Strapi](https://strapi.io/) application
