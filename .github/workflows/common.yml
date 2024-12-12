@@ -1,23 +1,29 @@
-name: common
-# on – определяет события, которые запускают воркфлоу
-on: push
+name: Node CI
+
+on:
+  - push
+  - pull_request
+
+env:
+  CI: true
+
 jobs:
-  # build – произвольно выбранное имя задания
-  # их может быть больше одного
-  setup:
-    # операционная система для работы воркфлоу
+  build:
+
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
-      # Клонируем репозиторий
       - uses: actions/checkout@v4
-      # Устанавливаем Node.js
-      - uses: actions/setup-node@v4
-      # Ставим зависимости
-      - run: npm install
-      # Запускаем линтер
-      - run: npm run lint
-      # Запускаем тесты
-      # у шагов может быть имя, иногда это помогает отладке
-      # имя выводится на Github при просмотре сборки
-      - name: run tests
-        run: npm test
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: make install
+      - run: make lint
+      - run: make test
+      - uses: hexlet-components/hello-from-hexlet-action@release
